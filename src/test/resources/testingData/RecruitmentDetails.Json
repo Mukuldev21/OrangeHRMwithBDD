@@ -1,0 +1,9 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "johndoe234@example.com",
+  "contactNo": "+1234567890",
+  "option": "Senior QA Lead",
+  "keywordField": "Java, Spring Boot"
+
+}

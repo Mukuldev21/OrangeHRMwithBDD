@@ -6,9 +6,9 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = {"src/test/java/features"},
         glue = {"stepDefinitions","hooks"},
-        plugin = {"pretty", "html:target/cucumber-reports"},
+        plugin = {"pretty", "html:target/cucumber-reports.html"},
         monochrome = true,
-        tags = "@ForgotPassword"
+        tags = "@SmokeTest"
 )
 public class testRunner extends AbstractTestNGCucumberTests {
 
