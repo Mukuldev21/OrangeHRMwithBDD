@@ -65,9 +65,8 @@ public class LoginPage extends BasePage {
 
     public void clickOnForgotYourPassword(){
 
-        //wait.until(ExpectedConditions.visibilityOf(forgotYourPasswordButton)).click();
+        wait.until(ExpectedConditions.visibilityOf(forgotYourPasswordButton));
         forgotYourPasswordButton.click();
-        //wait.until(ExpectedConditions.visibilityOf(resetPasswordMessage)).isDisplayed();
     }
 
     public void enterUsernameOnResetPasswordPage() {
@@ -78,12 +77,13 @@ public class LoginPage extends BasePage {
 
     public void resetPasswordMessageIsDisplayed() {
 
-        //wait.until(ExpectedConditions.visibilityOf(resetPasswordMessage)).isDisplayed();
+        wait.until(ExpectedConditions.visibilityOf(resetPasswordHeader));
         resetPasswordHeader.isDisplayed();
     }
     public void clickOnResetPassword() {
 
         wait.until(ExpectedConditions.visibilityOf(resetPasswordButton)).click();
+
     }
 
 
@@ -93,7 +93,7 @@ public class LoginPage extends BasePage {
         enterUsername(username);
         enterPassword(password);
         clickLoginButton();
-        //Assert.assertTrue(orangeHRMLogo.isDisplayed(),"The logo is not displayed");
+
 
     }
 
@@ -106,26 +106,25 @@ public class LoginPage extends BasePage {
         enterUsername(invalidUsername);
         enterPassword(invalidPassword);
         clickLoginButton();
-        //wait.until(ExpectedConditions.visibilityOf(errorMessage)).isDisplayed();
+
     }
 
 
 
     public void resetPassword(){
 
-        //clickOnForgotYourPassword();
-        //wait.until(ExpectedConditions.visibilityOf(resetPasswordMessage)).isDisplayed();
-        //enterUsernameOnResetPasswordPage();
-        //clickOnResetPassword();
+
         wait.until(ExpectedConditions.visibilityOf(resetPasswordLinkMessage)).isDisplayed();
-       // Assert.assertTrue(resetPasswordMessage.isDisplayed(), "Message is not displayed");
+        Assert.assertTrue(resetPasswordLinkMessage.isDisplayed(), "Reset password link message is not displayed");
     }
 
     public void userIsOnLoginPage(){
-        loginHeader.isDisplayed();
+        wait.until(ExpectedConditions.visibilityOf(loginHeader)).isDisplayed();
+        Assert.assertTrue(loginHeader.isDisplayed(), "User is not on the login page");
     }
 
     public void errorMessageIsDisplayed() {
         errorMessage.isDisplayed();
+        Assert.assertTrue(errorMessage.isDisplayed(), "Error message is not displayed");
     }
 }

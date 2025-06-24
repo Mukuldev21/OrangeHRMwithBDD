@@ -1,6 +1,6 @@
 Feature: Forgot Password functionality
 
-  @ForgotPassword
+  @SmokeTest
   Scenario: User clicks on Forgot Your Password
     Given  I am on the login page
     When I click on forgot password

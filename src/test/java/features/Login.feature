@@ -3,7 +3,7 @@ Feature: Login functionality for OrangeHRM
   Background:
     Given I am on the login page
 
-
+  @SmokeTest
   Scenario: Login with correct credentials
     When I enter valid username and password
     Then I should be logged in successfully
