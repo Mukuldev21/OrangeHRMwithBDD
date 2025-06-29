@@ -28,13 +28,21 @@ jobs:
           java-version: '23'
           distribution: 'temurin'
 
-      - name: Kill orphaned Chrome processes
+      # Kill orphaned Chrome processes before tests
+      - name: Kill orphaned Chrome processes (before)
         run: |
           pkill -f chrome || true
           pkill -f chromedriver || true
 
       - name: Build and Test
         run: mvn clean test -Dtest=runner.ciTestRunner -Drun.time="${{ steps.set_time.outputs.time }}"
+
+      # Kill orphaned Chrome processes after tests
+      - name: Kill orphaned Chrome processes (after)
+        if: always()
+        run: |
+          pkill -f chrome || true
+          pkill -f chromedriver || true
 
       - name: Archive Spark Report
         uses: actions/upload-artifact@v4
