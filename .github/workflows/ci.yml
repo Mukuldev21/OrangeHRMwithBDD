@@ -5,10 +5,10 @@ on:
     branches:
       - main
   schedule:
-    - cron: '30 3 * * *'   # 09:00 IST
-    - cron: '30 6 * * *'   # 12:00 IST
-    - cron: '30 9 * * *'   # 15:00 IST
-    - cron: '30 12 * * *'  # 18:00 IST
+    #- cron: '30 3 * * *'   # 09:00 IST
+    #- cron: '30 6 * * *'   # 12:00 IST
+    #- cron: '30 9 * * *'   # 15:00 IST
+    #- cron: '30 12 * * *'  # 18:00 IST
     - cron: '30 15 * * *'  # 21:00 IST
   workflow_dispatch:
 
@@ -27,6 +27,11 @@ jobs:
         with:
           java-version: '23'
           distribution: 'temurin'
+
+      - name: Kill orphaned Chrome processes
+        run: |
+          pkill -f chrome || true
+          pkill -f chromedriver || true
 
       - name: Build and Test
         run: mvn clean test -Dtest=runner.ciTestRunner -Drun.time="${{ steps.set_time.outputs.time }}"
