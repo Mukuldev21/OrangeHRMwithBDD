@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,8 +10,8 @@ public class DashboardPage extends BasePage {
 
     //Locators
 
-    @FindBy(xpath = "//img[contains(@alt,'client brand logo')]")
-    private WebElement profileLogo;
+   // @FindBy(xpath = "//div[@class='oxd-brand-logo']")
+   // private WebElement profileLogo;
 
     @FindBy(xpath = "//span[contains(@class,'oxd-userdropdown-tab')]")
     private WebElement profileDropdown;
@@ -30,12 +31,11 @@ public class DashboardPage extends BasePage {
     LoginPage loginPage = new LoginPage(driver);
     public void logoutUser(){
 
-        profileLogo.isDisplayed();
+        //profileLogo.isDisplayed();
         profileDropdown.click();
         logoutButton.click();
         loginPage.userIsOnLoginPage();
     }
-
     public void clickPIMMenu() {
         wait.until(ExpectedConditions.elementToBeClickable(pimMenu)).click();
     }

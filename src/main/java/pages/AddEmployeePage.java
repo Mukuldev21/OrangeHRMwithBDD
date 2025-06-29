@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
+import utils.JavaScriptUtil;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -76,15 +76,14 @@ public class AddEmployeePage extends BasePage {
     public void clickSave() {
         wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
     }
-
     public void verifyPersonalDetailsPage() {
         try {
-            // Increase timeout if needed
+            waitForLoaderToDisappear();
+            JavaScriptUtil.scrollIntoView(driver, personalDetailsHeader);
             WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(30));
             Assert.assertTrue(longWait.until(ExpectedConditions.visibilityOf(personalDetailsHeader)).isDisplayed(),
                     "Personal Details page is not displayed");
         } catch (Exception e) {
-            // Optionally take a screenshot here for debugging
             System.out.println("DEBUG: Could not find Personal Details header. " + e.getMessage());
             throw e;
         }
@@ -160,11 +159,16 @@ public class AddEmployeePage extends BasePage {
     ) {
         waitForLoaderToDisappear();
 
+
         if (gender.equalsIgnoreCase("Male")) {
+            wait.until(ExpectedConditions.visibilityOf(genderInputMale));
+            JavaScriptUtil.scrollIntoView(driver, genderInputMale);
             if (!genderInputMale.isSelected()) {
                 genderInputMale.click();
             }
         } else if (gender.equalsIgnoreCase("Female")) {
+            wait.until(ExpectedConditions.visibilityOf(genderInputFemale));
+            JavaScriptUtil.scrollIntoView(driver, genderInputFemale);
             if (!genderInputFemale.isSelected()) {
                 genderInputFemale.click();
             }
@@ -202,17 +206,20 @@ public class AddEmployeePage extends BasePage {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", savePersonalDetailsButton);
         }
     }
-    /*public String getGender() {
-        // Check if the radio buttons are selected
-        if (genderInputMale.isSelected()) {
-            return "Male";
-        } else if (genderInputFemale.isSelected()) {
-            return "Female";
-        }
-        return "";
-    }*/
-   // Java
     public String getGender() {
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.visibilityOf(genderInputMale),
+                ExpectedConditions.visibilityOf(genderInputFemale)
+        ));
+        JavaScriptUtil.scrollIntoView(driver, genderInputMale);
+        JavaScriptUtil.scrollIntoView(driver, genderInputFemale);
+
+        if (genderInputMale.isSelected()) return "Male";
+        if (genderInputFemale.isSelected()) return "Female";
+        return "";
+    }
+   // Java
+    /*public String getGender() {
         try {
             // Try using the 'for' attribute
             String maleFor = genderInputMale.getAttribute("for");
@@ -253,7 +260,7 @@ public class AddEmployeePage extends BasePage {
         } catch (Exception ignored) {}
 
         return "";
-    }
+    }*/
 
     public String getNationality() {
         // For custom dropdowns, you may need to get the selected value differently
