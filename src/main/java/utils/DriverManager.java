@@ -44,6 +44,7 @@ package utils;
       public static void quitDriver(WebDriver driver) {
           if (driver != null) {
               driver.quit();
+              driver =null;
           }
       }
   }

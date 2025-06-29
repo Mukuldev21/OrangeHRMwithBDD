@@ -36,7 +36,8 @@ public class hooks {
         }
 
         ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
-        driver = DriverManager.getDriver(config);
+        //driver = DriverManager.getDriver(config);
+        driver= new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         ExtentTest test = extent.createTest(scenario.getName());
@@ -53,7 +54,8 @@ public class hooks {
 @AfterStep
     public void addScreenshotToReport(Scenario scenario) {
         if (driver == null) {
-            driver = DriverManager.getDriver(config);
+            //driver = DriverManager.getDriver(config);
+            driver = new ChromeDriver();
         }
 
         new org.openqa.selenium.support.ui.WebDriverWait(driver, Duration.ofSeconds(15)).until(
@@ -96,9 +98,11 @@ public class hooks {
     @After
     public void tearDown(Scenario scenario) {
 
-        DriverManager.quitDriver(driver);
-        extent.flush();
-
+        //DriverManager.quitDriver(driver);
+        if(driver != null) {
+            driver.quit();
+            extent.flush();
         }
+    }
 
 }
