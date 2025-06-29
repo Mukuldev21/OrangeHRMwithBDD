@@ -27,24 +27,14 @@ package utils;
                         ChromeOptions chromeOptions = new ChromeOptions();
                         chromeOptions.addArguments("--no-sandbox");
                         chromeOptions.addArguments("--disable-dev-shm-usage");
-                        try {
-                            Path tempProfile = Files.createTempDirectory("chrome-user-data");
-                            chromeOptions.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath().toString());
-                        } catch (Exception e) {
-                            throw new RuntimeException("Failed to create temp user data dir for Chrome", e);
-                        }
+                        // No --user-data-dir argument here!
                         return new ChromeDriver(chromeOptions);
                     case "headless":
                         ChromeOptions options = new ChromeOptions();
                         options.addArguments("--headless=new");
                         options.addArguments("--no-sandbox");
                         options.addArguments("--disable-dev-shm-usage");
-                        try {
-                            Path tempProfile = Files.createTempDirectory("chrome-user-data");
-                            options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath().toString());
-                        } catch (Exception e) {
-                            throw new RuntimeException("Failed to create temp user data dir for Chrome", e);
-                        }
+                        // No --user-data-dir argument here!
                         return new ChromeDriver(options);
                     default:
                         throw new IllegalArgumentException("Unsupported browser: " + browser);
