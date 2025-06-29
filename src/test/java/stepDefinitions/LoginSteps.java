@@ -16,8 +16,8 @@ public class LoginSteps {
     public void iAmOnTheLoginPage() {
         StepTracker.setLastStepText("Given I am on the login page");
         try {
-            hooks.driver.get(hooks.config.getProperty("url"));
-            loginPage = new LoginPage(hooks.driver);
+            hooks.getDriver().get(hooks.config.getProperty("url"));
+            loginPage = new LoginPage(hooks.getDriver());
             loginPage.userIsOnLoginPage();
             StepErrorTracker.clear();
         } catch (Exception e) {

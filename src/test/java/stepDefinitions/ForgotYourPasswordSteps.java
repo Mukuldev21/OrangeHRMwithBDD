@@ -12,7 +12,7 @@ package stepDefinitions;
             private LoginPage loginPage;
 
             public ForgotYourPasswordSteps() {
-                this.loginPage = new LoginPage(hooks.driver);
+                this.loginPage = new LoginPage(hooks.getDriver());
             }
 
             @When("I click on forgot password")

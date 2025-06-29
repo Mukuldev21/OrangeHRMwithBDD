@@ -20,11 +20,11 @@ public class AddEmployeeSteps {
     public void iNavigateToAddEmployeePage() {
         StepTracker.setLastStepText("When I navigate to the Add Employee page");
         try {
-            DashboardPage dashboardPage = new DashboardPage(hooks.driver);
+            DashboardPage dashboardPage = new DashboardPage(hooks.getDriver());
             dashboardPage.clickPIMMenu();
-            PIMPage pimPage = new PIMPage(hooks.driver);
+            PIMPage pimPage = new PIMPage(hooks.getDriver());
             pimPage.clickAddEmployee();
-            addEmployeePage = new AddEmployeePage(hooks.driver);
+            addEmployeePage = new AddEmployeePage(hooks.getDriver());
             StepErrorTracker.clear();
         } catch (Exception e) {
             StepErrorTracker.setLastError(e.getMessage());
