@@ -23,16 +23,14 @@ package utils;
                       driver = new FirefoxDriver();
                       break;
                   case "chrome":
-                      ChromeOptions options = new ChromeOptions();
-                      // Set a unique user data dir to avoid session conflicts in CI
-                      String tempProfile = null;
+                      ChromeOptions chromeOptions = new ChromeOptions();
                       try {
-                          tempProfile = Files.createTempDirectory("chrome-profile-").toString();
+                          Path chromeProfile = Files.createTempDirectory("chrome-profile-");
+                          chromeOptions.addArguments("--user-data-dir=" + chromeProfile.toString());
                       } catch (IOException e) {
                           throw new RuntimeException(e);
                       }
-                      options.addArguments("--user-data-dir=" + tempProfile);
-                      driver = new ChromeDriver(options);
+                      driver = new ChromeDriver(chromeOptions);
                       break;
                   default:
                       throw new IllegalArgumentException("Unsupported browser: " + browser);
