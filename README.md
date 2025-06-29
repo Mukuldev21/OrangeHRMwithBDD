@@ -11,24 +11,28 @@ This project is a Java-based automated testing framework using Cucumber, TestNG,
 ## Project Structure
 
 ```
-src/
- └── test/
-     ├── java/
-     │    ├── features/                # Cucumber feature files
-     │    ├── hooks/                   # Cucumber hooks (setup/teardown)
-     │    ├── runner/                  # Test runner classes (e.g., testRunner.java, ciTestRunner.java)
-     │    ├── stepDefinitions/         # Step definition classes
-     │    └── utils/                   # Utility classes (DriverManager, ConfigReader, ScreenshotUtil, etc.)
-     └── resources/
-          ├── Config/                  # Configuration files (config.properties)
-          └── testingData/             # Test data files (e.g., EmployeeDetails.json)
-.github/
- └── workflows/
-     └── ci.yml                        # GitHub Actions workflow for CI
-test-output/
- └── SparkReport/                      # Generated test reports and screenshots
-pom.xml                                # Maven project file
-README.md                              # Project documentation
+src/ 
+  ├── main/ │ 
+  │      └── java/ 
+  │             ├── pages/              # Page Object Model classes  
+  │             └── utils/              # Utility classes (DriverManager, ConfigReader, etc.) 
+  ├── test/ 
+  │     ├── java/  
+  │     ├── features/                   # Cucumber feature files  
+  │     ├── hooks/                      # Cucumber hooks (setup/teardown) 
+  │     ├── runner/                     # Test runner classes (e.g., testRunner.java, ciTestRunner.java)  
+  │     └── stepDefinitions/            # Step definition classes 
+  └── resources/ 
+        ├── Config/                     # Configuration files (config.properties) 
+        └── testingData/                # Test data files (e.g., EmployeeDetails.json) 
+.github/ 
+  └── workflows/ 
+       └── ci.yml                       # GitHub Actions workflow for CI 
+test-output/ 
+  └──  SparkReport/                     # Generated test reports and screenshots 
+pom.xml                                 # Maven project file 
+README.md                               # Project documentation 
+
 ```
 
 ---
