@@ -4,7 +4,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -75,8 +78,16 @@ public class AddEmployeePage extends BasePage {
     }
 
     public void verifyPersonalDetailsPage() {
-        Assert.assertTrue(wait.until(ExpectedConditions.visibilityOf(personalDetailsHeader)).isDisplayed(),
-                "Personal Details page is not displayed");
+        try {
+            // Increase timeout if needed
+            WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            Assert.assertTrue(longWait.until(ExpectedConditions.visibilityOf(personalDetailsHeader)).isDisplayed(),
+                    "Personal Details page is not displayed");
+        } catch (Exception e) {
+            // Optionally take a screenshot here for debugging
+            System.out.println("DEBUG: Could not find Personal Details header. " + e.getMessage());
+            throw e;
+        }
     }
 
     public String getEmployeeId() {
@@ -132,11 +143,23 @@ public class AddEmployeePage extends BasePage {
         }
     }
 
+    // Add this utility method in AddEmployeePage
+    private void waitForLoaderToDisappear() {
+        try {
+            WebDriverWait loaderWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            loaderWait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector("div.oxd-form-loader")
+            ));
+        } catch (TimeoutException ignored) {}
+    }
+
     // Personal Details Section
     public void enterAllPersonalDetails(
             String gender, String nationality, String maritalStatus, String dob,
             String otherId, String licenseNumber, String licenseExpiry, String bloodType
     ) {
+        waitForLoaderToDisappear();
+
         if (gender.equalsIgnoreCase("Male")) {
             if (!genderInputMale.isSelected()) {
                 genderInputMale.click();

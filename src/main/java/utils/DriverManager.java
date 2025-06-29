@@ -3,7 +3,14 @@ package utils;
   import org.openqa.selenium.WebDriver;
   import org.openqa.selenium.chrome.ChromeDriver;
   import org.openqa.selenium.firefox.FirefoxDriver;
+
+  import java.io.IOException;
   import java.util.Properties;
+  import org.openqa.selenium.chrome.ChromeOptions;
+  import java.nio.file.Files;
+  import org.openqa.selenium.firefox.FirefoxDriver;
+  import org.openqa.selenium.firefox.FirefoxOptions;
+  import java.nio.file.Path;
 
   public class DriverManager {
       private static WebDriver driver;
@@ -16,10 +23,19 @@ package utils;
                       driver = new FirefoxDriver();
                       break;
                   case "chrome":
-                      driver = new ChromeDriver();
+                      ChromeOptions options = new ChromeOptions();
+                      // Set a unique user data dir to avoid session conflicts in CI
+                      String tempProfile = null;
+                      try {
+                          tempProfile = Files.createTempDirectory("chrome-profile-").toString();
+                      } catch (IOException e) {
+                          throw new RuntimeException(e);
+                      }
+                      options.addArguments("--user-data-dir=" + tempProfile);
+                      driver = new ChromeDriver(options);
                       break;
                   default:
-                      throw new IllegalArgumentException("Unsupported browser: " + browser + ". Please check config.properties.");
+                      throw new IllegalArgumentException("Unsupported browser: " + browser);
               }
           }
           return driver;
