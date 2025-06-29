@@ -18,7 +18,12 @@ import utils.DriverManager;
 
 public class hooks {
 
-    public static WebDriver driver;
+    //public static WebDriver driver;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
     public static Properties config;
     public static ExtentReports extent = ExtentManager.getInstance();
     private static ThreadLocal<ExtentTest> scenarioThread = new ThreadLocal<>();
@@ -36,10 +41,11 @@ public class hooks {
         }
 
         ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
-        driver = DriverManager.getDriver(config);
+        //driver = DriverManager.getDriver(config);
+        driver.set(DriverManager.getDriver(config));
         //driver= new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        getDriver().manage().window().maximize();
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         ExtentTest test = extent.createTest(scenario.getName());
         String runTime = System.getProperty("run.time", "Not Provided");
         //ExtentCucumberAdapter.addSystemInfo("Run Time (IST)", runTime);
@@ -53,12 +59,12 @@ public class hooks {
 
 @AfterStep
     public void addScreenshotToReport(Scenario scenario) {
-        if (driver == null) {
-            driver = DriverManager.getDriver(config);
+        if (getDriver() == null) {
+             WebDriver driver= DriverManager.getDriver(config);
             //driver = new ChromeDriver();
         }
 
-        new org.openqa.selenium.support.ui.WebDriverWait(driver, Duration.ofSeconds(15)).until(
+        new org.openqa.selenium.support.ui.WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(
             webDriver -> ((org.openqa.selenium.JavascriptExecutor) webDriver)
                 .executeScript("return document.readyState").equals("complete")
         );
@@ -68,7 +74,7 @@ public class hooks {
             stepInfo = "Step info not found";
         }
 
-        String screenshotPath = ScreenshotUtil.captureScreenshot(driver,
+        String screenshotPath = ScreenshotUtil.captureScreenshot(getDriver(),
                 scenario.getName().replaceAll(" ", "_") + "_" + System.currentTimeMillis());
 
         try {
@@ -98,7 +104,7 @@ public class hooks {
     @After
     public void tearDown(Scenario scenario) {
 
-        DriverManager.quitDriver(driver);
+        DriverManager.quitDriver(getDriver());
         extent.flush();
     }
 
