@@ -1,6 +1,9 @@
 name: CI Scheduled Test Run
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '30 3 * * *'   # 09:00 IST
     - cron: '30 6 * * *'   # 12:00 IST
