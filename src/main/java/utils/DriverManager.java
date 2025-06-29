@@ -13,36 +13,37 @@ package utils;
   import java.nio.file.Path;
 
   public class DriverManager {
-      private static WebDriver driver;
+      //private static WebDriver driver;
 
       public static WebDriver getDriver(Properties config) {
-          if (driver == null) {
-              String browser = config.getProperty("browser", "chrome").toLowerCase();
-              switch (browser) {
-                  case "firefox":
-                      driver = new FirefoxDriver();
-                      break;
-                  case "chrome":
-                      ChromeOptions chromeOptions = new ChromeOptions();
-                      try {
-                          Path chromeProfile = Files.createTempDirectory("chrome-profile-");
-                          chromeOptions.addArguments("--user-data-dir=" + chromeProfile.toString());
-                      } catch (IOException e) {
-                          throw new RuntimeException(e);
-                      }
-                      driver = new ChromeDriver(chromeOptions);
-                      break;
-                  default:
-                      throw new IllegalArgumentException("Unsupported browser: " + browser);
-              }
+          String browser = config.getProperty("browser", "chrome").toLowerCase();
+          switch (browser) {
+              case "firefox":
+                  FirefoxOptions firefoxOptions = new FirefoxOptions();
+                  try {
+                      Path firefoxProfile = Files.createTempDirectory("firefox-profile-");
+                      firefoxOptions.addArguments("-profile", firefoxProfile.toString());
+                  } catch (IOException e) {
+                      throw new RuntimeException(e);
+                  }
+                  return new FirefoxDriver(firefoxOptions);
+              case "chrome":
+                  ChromeOptions chromeOptions = new ChromeOptions();
+                  try {
+                      Path chromeProfile = Files.createTempDirectory("chrome-profile-");
+                      chromeOptions.addArguments("--user-data-dir=" + chromeProfile.toString());
+                  } catch (IOException e) {
+                      throw new RuntimeException(e);
+                  }
+                  return new ChromeDriver(chromeOptions);
+              default:
+                  throw new IllegalArgumentException("Unsupported browser: " + browser);
           }
-          return driver;
       }
 
-      public static void quitDriver() {
+      public static void quitDriver(WebDriver driver) {
           if (driver != null) {
               driver.quit();
-              driver = null;
           }
       }
   }

@@ -96,7 +96,7 @@ public class hooks {
     @After
     public void tearDown(Scenario scenario) {
 
-        DriverManager.quitDriver();
+        DriverManager.quitDriver(driver);
         extent.flush();
 
         }
