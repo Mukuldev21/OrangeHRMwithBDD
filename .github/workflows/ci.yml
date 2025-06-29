@@ -8,7 +8,7 @@ on:
     #- cron: '30 3 * * *'   # 09:00 IST
     #- cron: '30 6 * * *'   # 12:00 IST
     #- cron: '30 9 * * *'   # 15:00 IST
-    #- cron: '30 12 * * *'  # 18:00 IST
+    - cron: '30 12 * * *'  # 18:00 IST
     - cron: '30 15 * * *'  # 21:00 IST
   workflow_dispatch:
 
