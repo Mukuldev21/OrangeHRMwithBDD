@@ -18,7 +18,9 @@ package utils;
                     return new FirefoxDriver();
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
-                    // Do NOT set user-data-dir; Chrome will use a temporary directory by default
+                    options.addArguments("--headless=new");
+                    options.addArguments("--no-sandbox");
+                    options.addArguments("--disable-dev-shm-usage");
                     return new ChromeDriver(options);
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
