@@ -12,7 +12,7 @@ This project is a Java-based automated testing framework using Cucumber, TestNG,
 
 ```
 src/ 
-  ├── main/ │ 
+  ├── main/  
   │      └── java/ 
   │             ├── pages/              # Page Object Model classes  
   │             └── utils/              # Utility classes (DriverManager, ConfigReader, etc.) 
