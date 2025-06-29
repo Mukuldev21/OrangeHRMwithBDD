@@ -26,7 +26,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and Test
-        run: mvn clean test -Drun.time="${{ steps.set_time.outputs.time }}"
+        run: mvn clean test -Dtest=runner.ciTestRunner -Drun.time="${{ steps.set_time.outputs.time }}"
 
       - name: Archive Spark Report
         uses: actions/upload-artifact@v4

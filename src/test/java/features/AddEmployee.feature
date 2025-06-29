@@ -26,3 +26,13 @@ Feature: Add Employee in PIM
               And I enter the noted employee id
               And I save the new employee
               Then a duplicate employee id error should be displayed
+
+          @PIM3
+          Scenario: Enter and save all personal details for a new employee from json
+            When I navigate to the Add Employee page
+            And I enter employee first name and last name from json
+            And I save the new employee
+            Then the Personal Details page should be displayed
+            When I enter all personal details from json
+            And I save the personal details
+            Then the personal details should match the json data

@@ -12,10 +12,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import utils.ConfigReader;
 import utils.ScreenshotUtil;
-
-import java.net.URI;
 import java.time.Duration;
 import java.util.Properties;
+import utils.DriverManager;
 
 public class hooks {
 
@@ -37,12 +36,13 @@ public class hooks {
         }
 
         ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
-        driver = new ChromeDriver();
+        driver = DriverManager.getDriver(config);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
         ExtentTest test = extent.createTest(scenario.getName());
         String runTime = System.getProperty("run.time", "Not Provided");
-        extent.setSystemInfo("Run Time (IST)", runTime);
+        //ExtentCucumberAdapter.addSystemInfo("Run Time (IST)", runTime);
+        //extent.setSystemInfo("Run Time (IST)", runTime);
         scenarioThread.set(test);
         // Clean screenshots older than 1 day before each test run
         ScreenshotCleaner.deleteOldScreenshots("test-output/SparkReport/screenshots", 1);
@@ -53,7 +53,7 @@ public class hooks {
 @AfterStep
     public void addScreenshotToReport(Scenario scenario) {
         if (driver == null) {
-            driver = new ChromeDriver();
+            driver = DriverManager.getDriver(config);
         }
 
         new org.openqa.selenium.support.ui.WebDriverWait(driver, Duration.ofSeconds(15)).until(
@@ -96,10 +96,8 @@ public class hooks {
     @After
     public void tearDown(Scenario scenario) {
 
-        if (driver != null) {
-            driver.quit();
-            extent.flush();
-            }
+        DriverManager.quitDriver();
+        extent.flush();
 
         }
 

@@ -1,4 +1,13 @@
 {
   "firstName" : "John",
-  "lastName" : "LastName2128"
+  "lastName" : "LastName3805",
+  "gender" : "Male",
+  "nationality" : "Indian",
+  "maritalStatus" : "Single",
+  "dob" : "1990-01-01",
+  "nickName" : "Johnny",
+  "otherId" : "OID12345",
+  "licenseNumber" : "LIC987654",
+  "licenseExpiry" : "2030-12-31",
+  "bloodType" : "O+"
 }

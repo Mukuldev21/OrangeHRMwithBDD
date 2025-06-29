@@ -108,4 +108,58 @@ public class AddEmployeeSteps {
             throw e;
         }
     }
+
+    @When("I enter all personal details from json")
+    public void enterAllPersonalDetailsFromJson() {
+        StepTracker.setLastStepText("When I enter all personal details from json");
+        try {
+            String gender = ConfigReader.getJsonConfigValue("gender");
+            String nationality = ConfigReader.getJsonConfigValue("nationality");
+            String maritalStatus = ConfigReader.getJsonConfigValue("maritalStatus");
+            String dob = ConfigReader.getJsonConfigValue("dob");
+            String otherId = ConfigReader.getJsonConfigValue("otherId");
+            String licenseNumber = ConfigReader.getJsonConfigValue("licenseNumber");
+            String licenseExpiry = ConfigReader.getJsonConfigValue("licenseExpiry");
+            String bloodType = ConfigReader.getJsonConfigValue("bloodType");
+            addEmployeePage.enterAllPersonalDetails(
+                    gender, nationality, maritalStatus, dob, otherId,
+                    licenseNumber, licenseExpiry,bloodType
+            );
+            StepErrorTracker.clear();
+        } catch (Exception e) {
+            StepErrorTracker.setLastError(e.getMessage());
+            throw e;
+        }
+    }
+
+    @When("I save the personal details")
+    public void savePersonalDetails() {
+        StepTracker.setLastStepText("When I save the personal details");
+        try {
+            addEmployeePage.savePersonalDetails();
+            StepErrorTracker.clear();
+        } catch (Exception e) {
+            StepErrorTracker.setLastError(e.getMessage());
+            throw e;
+        }
+    }
+
+    @Then("the personal details should match the json data")
+    public void verifyPersonalDetails() {
+        StepTracker.setLastStepText("Then the personal details should match the json data");
+        try {
+            Assert.assertEquals(addEmployeePage.getGender(), ConfigReader.getJsonConfigValue("gender"));
+            Assert.assertEquals(addEmployeePage.getNationality(), ConfigReader.getJsonConfigValue("nationality"));
+            Assert.assertEquals(addEmployeePage.getMaritalStatus(), ConfigReader.getJsonConfigValue("maritalStatus"));
+            Assert.assertEquals(addEmployeePage.getDob(), ConfigReader.getJsonConfigValue("dob"));
+            Assert.assertEquals(addEmployeePage.getOtherId(), ConfigReader.getJsonConfigValue("otherId"));
+            Assert.assertEquals(addEmployeePage.getLicenseNumber(), ConfigReader.getJsonConfigValue("licenseNumber"));
+            Assert.assertEquals(addEmployeePage.getLicenseExpiry(), ConfigReader.getJsonConfigValue("licenseExpiry"));
+            Assert.assertEquals(addEmployeePage.getBloodType(), ConfigReader.getJsonConfigValue("bloodType"));
+            StepErrorTracker.clear();
+        } catch (Exception e) {
+            StepErrorTracker.setLastError(e.getMessage());
+            throw e;
+        }
+    }
 }
