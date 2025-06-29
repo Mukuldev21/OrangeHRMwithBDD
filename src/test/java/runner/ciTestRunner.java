@@ -10,7 +10,7 @@ import org.testng.annotations.DataProvider;
     glue = {"stepDefinitions","hooks"},
     plugin = {"pretty", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
     monochrome = true,
-    tags = "@CI and @PIM" // Only run scenarios tagged with @CI
+    tags = "@PIM3" // Only run scenarios tagged with @CI
 )
 public class ciTestRunner extends AbstractTestNGCucumberTests {
 

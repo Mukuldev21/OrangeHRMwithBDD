@@ -61,20 +61,24 @@ public class AddEmployeePage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement savePersonalDetailsButton;
 
+    // Use a shorter default wait (5s) for most actions, longer only where needed
+    private final WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    private final WebDriverWait longWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
     public AddEmployeePage(WebDriver driver) {
         super(driver);
     }
 
     public void enterFirstName(String firstName) {
-        wait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(firstName);
+        shortWait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(firstName);
     }
 
     public void enterLastName(String lastName) {
-        wait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(lastName);
+        shortWait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(lastName);
     }
 
     public void clickSave() {
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+        shortWait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
     }
     public void verifyPersonalDetailsPage() {
         try {
@@ -125,28 +129,17 @@ public class AddEmployeePage extends BasePage {
     // Utility method for custom dropdowns
     private void selectFromCustomDropdown(WebElement dropdown, String visibleText) {
         dropdown.click();
-        // Wait for any option to be visible (adjust XPath if needed)
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@role='option']")));
-        // Try to find the option by text (adjust XPath if options are in a different container)
-        java.util.List<WebElement> options = driver.findElements(By.xpath("//div[@role='option']"));
-        boolean found = false;
-        for (WebElement option : options) {
-            if (option.getText().trim().equalsIgnoreCase(visibleText.trim())) {
-                option.click();
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            throw new NoSuchElementException("Dropdown option not found: " + visibleText);
-        }
+        // Wait for the specific option to be visible and click it directly
+        WebElement option = shortWait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@role='option' and normalize-space()='" + visibleText + "']")
+        ));
+        option.click();
     }
 
     // Add this utility method in AddEmployeePage
     private void waitForLoaderToDisappear() {
         try {
-            WebDriverWait loaderWait = new WebDriverWait(driver, Duration.ofSeconds(15));
-            loaderWait.until(ExpectedConditions.invisibilityOfElementLocated(
+            shortWait.until(ExpectedConditions.invisibilityOfElementLocated(
                     By.cssSelector("div.oxd-form-loader")
             ));
         } catch (TimeoutException ignored) {}
@@ -159,22 +152,16 @@ public class AddEmployeePage extends BasePage {
     ) {
         waitForLoaderToDisappear();
 
-
-        if (gender.equalsIgnoreCase("Male")) {
-            wait.until(ExpectedConditions.visibilityOf(genderInputMale));
-            JavaScriptUtil.scrollIntoView(driver, genderInputMale);
-            if (!genderInputMale.isSelected()) {
-                genderInputMale.click();
-            }
-        } else if (gender.equalsIgnoreCase("Female")) {
-            wait.until(ExpectedConditions.visibilityOf(genderInputFemale));
-            JavaScriptUtil.scrollIntoView(driver, genderInputFemale);
-            if (!genderInputFemale.isSelected()) {
-                genderInputFemale.click();
-            }
+        WebElement genderElement = gender.equalsIgnoreCase("Male") ? genderInputMale : genderInputFemale;
+        try {
+            shortWait.until(ExpectedConditions.elementToBeClickable(genderElement)).click();
+        } catch (ElementClickInterceptedException e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", genderElement);
         }
+
         selectFromCustomDropdown(nationalityDropdown, nationality);
         selectFromCustomDropdown(maritalStatusDropdown, maritalStatus);
+
         dobField.clear();
         dobField.sendKeys(dob);
         otherIdField.clear();
@@ -206,7 +193,7 @@ public class AddEmployeePage extends BasePage {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", savePersonalDetailsButton);
         }
     }
-    public String getGender() {
+    /*public String getGender() {
         wait.until(ExpectedConditions.or(
                 ExpectedConditions.visibilityOf(genderInputMale),
                 ExpectedConditions.visibilityOf(genderInputFemale)
@@ -217,9 +204,9 @@ public class AddEmployeePage extends BasePage {
         if (genderInputMale.isSelected()) return "Male";
         if (genderInputFemale.isSelected()) return "Female";
         return "";
-    }
+    }*/
    // Java
-    /*public String getGender() {
+    public String getGender() {
         try {
             // Try using the 'for' attribute
             String maleFor = genderInputMale.getAttribute("for");
@@ -260,7 +247,7 @@ public class AddEmployeePage extends BasePage {
         } catch (Exception ignored) {}
 
         return "";
-    }*/
+    }
 
     public String getNationality() {
         // For custom dropdowns, you may need to get the selected value differently
