@@ -18,14 +18,7 @@ package utils;
                     return new FirefoxDriver();
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
-                    // Create a unique temp directory for Chrome's user data
-                    try {
-                        Path tempProfile = Files.createTempDirectory("chrome-profile-");
-                        options.addArguments("user-data-dir=" + tempProfile.toAbsolutePath().toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        // Optionally, you can continue with default options if temp dir fails
-                    }
+                    // Do NOT set user-data-dir; Chrome will use a temporary directory by default
                     return new ChromeDriver(options);
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
