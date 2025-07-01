@@ -27,7 +27,7 @@ src/
         └── testingData/                # Test data files (e.g., EmployeeDetails.json) 
 .github/ 
   └── workflows/ 
-        └── ci.yml                      # GitHub Actions workflow for CI 
+        └── ciActions.yml                      # GitHub Actions workflow for CI 
 test-output/ 
         └── SparkReport/                # Generated test reports and screenshots 
 pom.xml                                 # Maven project file 

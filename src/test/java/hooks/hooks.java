@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import utils.ConfigReader;
 import utils.ScreenshotUtil;
+
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 import utils.DriverManager;
@@ -28,7 +30,7 @@ public class hooks {
     public static ExtentReports extent = ExtentManager.getInstance();
     private static ThreadLocal<ExtentTest> scenarioThread = new ThreadLocal<>();
 
-    @Before
+    /*@Before
     public void setUp(Scenario scenario) {
         // Load Configuration Properties
         config = ConfigReader.loadProperties("src/test/resources/config/config.properties");
@@ -36,11 +38,12 @@ public class hooks {
         // Update last name in JSON before loading it
         try {
             utils.JsonUpdater.updateLastName("src/test/resources/testingData/EmployeeDetails.json");
+            ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
+
         //driver = DriverManager.getDriver(config);
         driver.set(DriverManager.getDriver(config));
         //driver= new ChromeDriver();
@@ -53,18 +56,42 @@ public class hooks {
         scenarioThread.set(test);
         // Clean screenshots older than 1 day before each test run
         ScreenshotCleaner.deleteOldScreenshots("test-output/SparkReport/screenshots", 1);
+    }*/
+    @Before
+    public void setUp(Scenario scenario) {
+        config = ConfigReader.loadProperties("src/test/resources/config/config.properties");
+
+        try {
+            utils.JsonUpdater.updateLastName("src/test/resources/testingData/EmployeeDetails.json");
+            ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
+            driver.set(DriverManager.getDriver(config));
+            getDriver().manage().window().maximize();
+            getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to initialize WebDriver or load config", e);
+        }
+
+        ExtentTest test = extent.createTest(scenario.getName());
+        String runTime = System.getProperty("run.time", "Not Provided");
+        scenarioThread.set(test);
+        ScreenshotCleaner.deleteOldScreenshots("test-output/SparkReport/screenshots", 1);
     }
 
    // Inside hooks.java
 
 @AfterStep
     public void addScreenshotToReport(Scenario scenario) {
+    try {
         if (getDriver() == null) {
              WebDriver driver= DriverManager.getDriver(config);
             //driver = new ChromeDriver();
         }
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
 
-        new org.openqa.selenium.support.ui.WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(
+    new org.openqa.selenium.support.ui.WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(
             webDriver -> ((org.openqa.selenium.JavascriptExecutor) webDriver)
                 .executeScript("return document.readyState").equals("complete")
         );
