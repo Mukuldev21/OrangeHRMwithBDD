@@ -30,10 +30,10 @@ package utils;
                         chromeOptions.addArguments("--disable-dev-shm-usage");
                         // No --user-data-dir argument here!
                         //Workaround for ChromeDriver issue with user-data-dir
-                        if(System.getenv("GITHUB_ACTIONS")!=null){
+                        /*if(System.getenv("GITHUB_ACTIONS")!=null){
                             Path tempUserDir = Files.createTempDirectory("chrome-user-data-dir-");
                             chromeOptions.addArguments("user-data-dir=" + tempUserDir.toAbsolutePath().toString());
-                        }
+                        }*/
                         return new ChromeDriver(chromeOptions);
                     case "headless":
                         ChromeOptions options = new ChromeOptions();
@@ -42,10 +42,10 @@ package utils;
                         options.addArguments("--disable-dev-shm-usage");
                         // No --user-data-dir argument here!
                         //Workaround for ChromeDriver issue with user-data-dir
-                        if(System.getenv("GITHUB_ACTIONS")!=null){
+                        /*if(System.getenv("GITHUB_ACTIONS")!=null){
                             Path tempUserDir = Files.createTempDirectory("chrome-user-data-dir-");
                             options.addArguments("user-data-dir=" + tempUserDir.toAbsolutePath().toString());
-                        }
+                        }*/
                         return new ChromeDriver(options);
                     default:
                         throw new IllegalArgumentException("Unsupported browser: " + browser);

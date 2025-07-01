@@ -25,6 +25,10 @@ jobs:
         with:
           maven-version: '3.9.6'
 
+        #Kill any orphaned Chrome processes
+      - name: Kill any orphaned Chrome processes
+        run: pkill -o chrome || true
+
       - name: Build and run tests
         run: mvn clean test -Dtest=runner.ciTestRunner
 
