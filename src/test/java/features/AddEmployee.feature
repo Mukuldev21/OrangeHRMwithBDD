@@ -13,7 +13,7 @@ Feature: Add Employee in PIM
             Then the Personal Details page should be displayed
 
 
-          @PIM2 @CI
+          @PIM2 @CI @PIM
             Scenario: Prevent adding duplicate employee with same employee ID
               When I navigate to the Add Employee page
               And I enter employee first name and last name from json
@@ -27,7 +27,7 @@ Feature: Add Employee in PIM
               And I save the new employee
               Then a duplicate employee id error should be displayed
 
-          @PIM3 @CI
+          @PIM3 @CI @PIM
           Scenario: Enter and save all personal details for a new employee from json
             When I navigate to the Add Employee page
             And I enter employee first name and last name from json

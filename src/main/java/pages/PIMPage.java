@@ -9,7 +9,7 @@ import utils.JavaScriptUtil;
 
 public class PIMPage extends BasePage {
 
-    @FindBy(xpath = "//button[text() =' Add ']")
+    @FindBy(xpath = "//button[normalize-space()='Add']")
     private WebElement addEmployeeButton;
 
     public PIMPage(WebDriver driver) {
@@ -17,20 +17,12 @@ public class PIMPage extends BasePage {
     }
 
     // In PIMPage.java
+    // Java
     public void clickAddEmployee() {
-        // Wait for any loader/overlay to disappear (adjust selector if needed)
-        try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(
-                By.cssSelector("div.oxd-form-loader, div.oxd-loading-spinner")
-            ));
-        } catch (Exception ignored) {}
-
         JavaScriptUtil.scrollIntoView(driver, addEmployeeButton);
-
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(addEmployeeButton)).click();
+            addEmployeeButton.click();
         } catch (org.openqa.selenium.ElementClickInterceptedException e) {
-            // Fallback: click with JavaScript if intercepted
             ((org.openqa.selenium.JavascriptExecutor) driver)
                 .executeScript("arguments[0].click();", addEmployeeButton);
         }

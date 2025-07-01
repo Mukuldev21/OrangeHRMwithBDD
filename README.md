@@ -62,7 +62,7 @@ mvn clean test -Dtest=runner.ciTestRunner
 ```
 
 **On GitHub Actions:**
-- Tests are triggered automatically via `.github/workflows/ci.yml`.
+- Tests are triggered automatically via `.github/workflows/ciActions.yml`.
 
 ---
 

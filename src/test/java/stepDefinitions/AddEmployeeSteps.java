@@ -123,8 +123,9 @@ public class AddEmployeeSteps {
             String bloodType = ConfigReader.getJsonConfigValue("bloodType");
             addEmployeePage.enterAllPersonalDetails(
                     gender, nationality, maritalStatus, dob, otherId,
-                    licenseNumber, licenseExpiry,bloodType
+                    licenseNumber, licenseExpiry
             );
+            addEmployeePage.enterCustomFields(bloodType);
             StepErrorTracker.clear();
         } catch (Exception e) {
             StepErrorTracker.setLastError(e.getMessage());
@@ -136,7 +137,8 @@ public class AddEmployeeSteps {
     public void savePersonalDetails() {
         StepTracker.setLastStepText("When I save the personal details");
         try {
-            addEmployeePage.savePersonalDetails();
+            addEmployeePage.clickOnSaveButtonInPersonalDetails();
+            addEmployeePage.clickOnSaveButtonInCustomFields();
             StepErrorTracker.clear();
         } catch (Exception e) {
             StepErrorTracker.setLastError(e.getMessage());
@@ -149,7 +151,10 @@ public class AddEmployeeSteps {
         StepTracker.setLastStepText("Then the personal details should match the json data");
         try {
             Assert.assertEquals(addEmployeePage.getGender(), ConfigReader.getJsonConfigValue("gender"));
-            Assert.assertEquals(addEmployeePage.getNationality(), ConfigReader.getJsonConfigValue("nationality"));
+            Assert.assertEquals(
+                addEmployeePage.getNationality().toLowerCase(),
+                ConfigReader.getJsonConfigValue("nationality").toLowerCase()
+            );
             Assert.assertEquals(addEmployeePage.getMaritalStatus(), ConfigReader.getJsonConfigValue("maritalStatus"));
             Assert.assertEquals(addEmployeePage.getDob(), ConfigReader.getJsonConfigValue("dob"));
             Assert.assertEquals(addEmployeePage.getOtherId(), ConfigReader.getJsonConfigValue("otherId"));

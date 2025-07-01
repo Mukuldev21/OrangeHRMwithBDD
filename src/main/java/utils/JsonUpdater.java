@@ -12,7 +12,7 @@ public class JsonUpdater {
         Map<String, Object> jsonMap = mapper.readValue(new File(filePath), Map.class);
 
         // Generate a random last name
-        String randomLastName = "LastName" + new Random().nextInt(10000);
+        String randomLastName = "LastName" + new Random().nextInt(100000);
         jsonMap.put("lastName", randomLastName);
 
         // Write back to the file

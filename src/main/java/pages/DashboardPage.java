@@ -19,7 +19,7 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//a[text()='Logout']")
     private WebElement logoutButton;
 
-    @FindBy(xpath = "//span[text()='PIM']")
+    @FindBy(linkText = "PIM")
     private WebElement pimMenu;
 
 
