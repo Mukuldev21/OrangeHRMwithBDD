@@ -36,8 +36,8 @@ public class AddEmployeeSteps {
     public void iEnterEmployeeDetailsFromJson() {
         StepTracker.setLastStepText("When I enter employee first name and last name from json");
         try {
-            String firstName = ConfigReader.getJsonConfigValue("firstName");
-            String lastName = ConfigReader.getJsonConfigValue("lastName");
+            String firstName = hooks.employeeDetailsJson.get("firstName").getAsString();
+            String lastName = hooks.employeeDetailsJson.get("lastName").getAsString();
             addEmployeePage.enterFirstName(firstName);
             addEmployeePage.enterLastName(lastName);
             StepErrorTracker.clear();
@@ -113,14 +113,14 @@ public class AddEmployeeSteps {
     public void enterAllPersonalDetailsFromJson() {
         StepTracker.setLastStepText("When I enter all personal details from json");
         try {
-            String gender = ConfigReader.getJsonConfigValue("gender");
-            String nationality = ConfigReader.getJsonConfigValue("nationality");
-            String maritalStatus = ConfigReader.getJsonConfigValue("maritalStatus");
-            String dob = ConfigReader.getJsonConfigValue("dob");
-            String otherId = ConfigReader.getJsonConfigValue("otherId");
-            String licenseNumber = ConfigReader.getJsonConfigValue("licenseNumber");
-            String licenseExpiry = ConfigReader.getJsonConfigValue("licenseExpiry");
-            String bloodType = ConfigReader.getJsonConfigValue("bloodType");
+            String gender = hooks.employeeDetailsJson.get("gender").getAsString();
+            String nationality = hooks.employeeDetailsJson.get("nationality").getAsString();
+            String maritalStatus = hooks.employeeDetailsJson.get("maritalStatus").getAsString();
+            String dob = hooks.employeeDetailsJson.get("dob").getAsString();
+            String otherId = hooks.employeeDetailsJson.get("otherId").getAsString();
+            String licenseNumber = hooks.employeeDetailsJson.get("licenseNumber").getAsString();
+            String licenseExpiry = hooks.employeeDetailsJson.get("licenseExpiry").getAsString();
+            String bloodType = hooks.employeeDetailsJson.get("bloodType").getAsString();
             addEmployeePage.enterAllPersonalDetails(
                     gender, nationality, maritalStatus, dob, otherId,
                     licenseNumber, licenseExpiry
@@ -146,21 +146,22 @@ public class AddEmployeeSteps {
         }
     }
 
+
     @Then("the personal details should match the json data")
     public void verifyPersonalDetails() {
         StepTracker.setLastStepText("Then the personal details should match the json data");
         try {
-            Assert.assertEquals(addEmployeePage.getGender(), ConfigReader.getJsonConfigValue("gender"));
+            Assert.assertEquals(addEmployeePage.getGender(), hooks.employeeDetailsJson.get("gender").getAsString());
             Assert.assertEquals(
-                addEmployeePage.getNationality().toLowerCase(),
-                ConfigReader.getJsonConfigValue("nationality").toLowerCase()
+                    addEmployeePage.getNationality().toLowerCase(),
+                    hooks.employeeDetailsJson.get("nationality").getAsString().toLowerCase()
             );
-            Assert.assertEquals(addEmployeePage.getMaritalStatus(), ConfigReader.getJsonConfigValue("maritalStatus"));
-            Assert.assertEquals(addEmployeePage.getDob(), ConfigReader.getJsonConfigValue("dob"));
-            Assert.assertEquals(addEmployeePage.getOtherId(), ConfigReader.getJsonConfigValue("otherId"));
-            Assert.assertEquals(addEmployeePage.getLicenseNumber(), ConfigReader.getJsonConfigValue("licenseNumber"));
-            Assert.assertEquals(addEmployeePage.getLicenseExpiry(), ConfigReader.getJsonConfigValue("licenseExpiry"));
-            Assert.assertEquals(addEmployeePage.getBloodType(), ConfigReader.getJsonConfigValue("bloodType"));
+            Assert.assertEquals(addEmployeePage.getMaritalStatus(), hooks.employeeDetailsJson.get("maritalStatus").getAsString());
+            Assert.assertEquals(addEmployeePage.getDob(), hooks.employeeDetailsJson.get("dob").getAsString());
+            Assert.assertEquals(addEmployeePage.getOtherId(), hooks.employeeDetailsJson.get("otherId").getAsString());
+            Assert.assertEquals(addEmployeePage.getLicenseNumber(), hooks.employeeDetailsJson.get("licenseNumber").getAsString());
+            Assert.assertEquals(addEmployeePage.getLicenseExpiry(), hooks.employeeDetailsJson.get("licenseExpiry").getAsString());
+            Assert.assertEquals(addEmployeePage.getBloodType(), hooks.employeeDetailsJson.get("bloodType").getAsString());
             StepErrorTracker.clear();
         } catch (Exception e) {
             StepErrorTracker.setLastError(e.getMessage());

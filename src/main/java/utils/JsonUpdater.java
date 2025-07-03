@@ -8,6 +8,11 @@ import java.util.Random;
 
 public class JsonUpdater {
     public static void updateLastName(String filePath) throws IOException {
+        // Only update if the file is EmployeeDetails.json
+        if (!filePath.endsWith("EmployeeDetails.json")) {
+            return;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> jsonMap = mapper.readValue(new File(filePath), Map.class);
 

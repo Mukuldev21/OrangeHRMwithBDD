@@ -4,6 +4,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import com.google.gson.JsonObject;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
@@ -12,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import utils.ConfigReader;
 import utils.ScreenshotUtil;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
@@ -29,6 +29,9 @@ public class hooks {
     public static Properties config;
     public static ExtentReports extent = ExtentManager.getInstance();
     private static ThreadLocal<ExtentTest> scenarioThread = new ThreadLocal<>();
+    public static JsonObject employeeDetailsJson;
+    public static JsonObject employeeSearchJson;
+    public static JsonObject nonExistentEmployeeJson;
 
     /*@Before
     public void setUp(Scenario scenario) {
@@ -63,7 +66,10 @@ public class hooks {
 
         try {
             utils.JsonUpdater.updateLastName("src/test/resources/testingData/EmployeeDetails.json");
-            ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
+            //ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
+            employeeDetailsJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
+            employeeSearchJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeSearchData.json");
+            nonExistentEmployeeJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/NonExistentEmployee.json");
             driver.set(DriverManager.getDriver(config));
             getDriver().manage().window().maximize();
             getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));

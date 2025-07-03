@@ -9,8 +9,8 @@ import org.testng.annotations.DataProvider;
     features = {"src/test/java/features"},
     glue = {"stepDefinitions","hooks"},
     plugin = {"pretty", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
-    monochrome = true
-    //tags = "@PIM3" // Only run scenarios tagged with @CI
+    monochrome = true,
+    tags = "@Search" // Only run scenarios tagged with @CI
 )
 public class ciTestRunner extends AbstractTestNGCucumberTests {
 
