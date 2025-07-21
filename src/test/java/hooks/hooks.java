@@ -32,6 +32,7 @@ public class hooks {
     public static JsonObject employeeDetailsJson;
     public static JsonObject employeeSearchJson;
     public static JsonObject nonExistentEmployeeJson;
+    public static JsonObject timePageEmployeeJson;
 
     /*@Before
     public void setUp(Scenario scenario) {
@@ -70,6 +71,7 @@ public class hooks {
             employeeDetailsJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeDetails.json");
             employeeSearchJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/EmployeeSearchData.json");
             nonExistentEmployeeJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/NonExistentEmployee.json");
+            timePageEmployeeJson = ConfigReader.loadJsonConfig("src/test/resources/testingData/TimePageEmployeeData.json");
             driver.set(DriverManager.getDriver(config));
             getDriver().manage().window().maximize();
             getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(15));

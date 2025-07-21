@@ -6,11 +6,13 @@ Feature: Time Page Functionality
     Then I should be logged in successfully
     And I navigate to the Time page
 
+  @TimePage
   Scenario: Search for an employee timesheet
-    When I enter employee name "Linda Anderson" in the timesheet search field
+    When I enter employee name from json in the timesheet search field
     And I click the view button
-    Then the timesheet for "Linda Anderson" should be displayed
+    Then the timesheet for employee from json should be displayed
 
+  @TimePage
   Scenario: View my timesheet
     When I click the "My Timesheet" button
     Then my timesheet should be displayed

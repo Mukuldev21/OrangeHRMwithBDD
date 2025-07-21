@@ -16,8 +16,9 @@ public class TimePageSteps {
         Assert.assertTrue(timePage.isAt(), "Not on Time page");
     }
 
-    @When("I enter employee name {string} in the timesheet search field")
-    public void iEnterEmployeeNameInTheTimesheetSearchField(String employeeName) {
+    @When("I enter employee name from json in the timesheet search field")
+    public void iEnterEmployeeNameFromJsonInTheTimesheetSearchField() {
+        String employeeName = hooks.timePageEmployeeJson.get("employeeName").getAsString();
         timePage.enterEmployeeName(employeeName);
     }
 
@@ -26,8 +27,9 @@ public class TimePageSteps {
         timePage.clickViewButton();
     }
 
-    @Then("the timesheet for {string} should be displayed")
-    public void theTimesheetForShouldBeDisplayed(String employeeName) {
+    @Then("the timesheet for employee from json should be displayed")
+    public void theTimesheetForEmployeeFromJsonShouldBeDisplayed() {
+        String employeeName = hooks.timePageEmployeeJson.get("employeeName").getAsString();
         Assert.assertTrue(timePage.isTimesheetDisplayedFor(employeeName), "Timesheet not displayed for " + employeeName);
     }
 
